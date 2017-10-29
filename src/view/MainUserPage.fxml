@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainUserPageController">
+      
+      
+      <AnchorPane prefHeight="600" prefWidth="400">
+      		
+            <ListView fx:id="albumList" layoutX="4.0" layoutY="90.0" prefHeight="309.0" prefWidth="590" />
+            <Label fx:id="welcomeMessage" layoutX="283.0" layoutY="50.0" text="" />
+      
+      </AnchorPane>
+      
+      
+</AnchorPane>
