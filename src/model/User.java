@@ -21,6 +21,15 @@ public class User  {
 	public ArrayList<Album> getAlbum(){
 		return albums;
 	}
+	public boolean nameExist(String name){
+		name.trim();
+		for (Album a:albums){
+			if (a.getName().toLowerCase().equals(name.toLowerCase())){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public String getName(){
 		return fullName;

@@ -29,9 +29,11 @@ public class PhotoViewController {
 	
 	@FXML ListView<Photo> photoView;
 	@FXML Button addPhotoButton;
+	@FXML Button searchPhotoButton;
 	
 	private ObservableList<Photo> list = FXCollections.observableArrayList();
 	Album currentAlbum;
+	User user;
 	/**
 	 * This function gets called before the start method to initialize the listview.
 	 * @param u The user to whom these pictures belong
@@ -40,6 +42,7 @@ public class PhotoViewController {
 	public void populateView(User u,Album a){
 		list.addAll(a.getPhotos());
 		currentAlbum=a;
+		user=u;
 		photoView.setItems(list);
 	}
 	/**
@@ -96,7 +99,7 @@ public class PhotoViewController {
 	 * This functions is used to handle clicks or double clicks done on individaul pictures
 	 * @param click gets the event of the mouse click
 	 */
-	@FXML public void handleMouseClick(MouseEvent click) {
+	@FXML public void doubleClickPhoto(MouseEvent click) {
         if (click.getClickCount() == 2) {
 
         	try{
@@ -118,6 +121,25 @@ public class PhotoViewController {
 
         }
 	    
+	}
+	
+	@FXML public void openSearch(ActionEvent e){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/SearchView.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	        Stage stage = new Stage();
+	        stage.setTitle("Search Photos");
+	        stage.setScene(new Scene(root, 545, 423));
+	        SearchViewController searchViewController = loader.getController();
+	        searchViewController.initUser(user);
+	        searchViewController.start(stage);
+	        stage.show();
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 		

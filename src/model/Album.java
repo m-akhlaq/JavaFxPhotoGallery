@@ -10,15 +10,18 @@ public class Album {
 		this.name=name;
 	}
 	
-	public String toString(){
+
+	public String getName(){
 		return name;
 	}
-	
 	public ArrayList<Photo> getPhotos(){
 		return photos;
 	}
 	public void addPhotos(Photo p){
 		photos.add(p);
+	}
+	public String toString(){
+		return name;
 	}
 	
 }

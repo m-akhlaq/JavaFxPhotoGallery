@@ -15,7 +15,7 @@ public class FullPhotoViewController {
 	@FXML Button infoHoverButton;
 	public void initPhoto(Photo p){
 		photo=p;
-		Image img = new Image("file:/C:/Users/shahe/Git/Photos15/src/info.png",35,34,false,false);
+		Image img = new Image("file:/C:/Users/shahe/Git/Photos15/src/pictures/info.png",35,34,false,false);
         infoHoverButton.setGraphic(new ImageView(img));
         Tooltip tt = new Tooltip();
         tt.setText(photo.printAttributes());

@@ -6,7 +6,8 @@
 
 <AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.PhotoViewController">
    <children>
-      <ListView fx:id="photoView" layoutX="5.0" layoutY="53.0" prefHeight="342.0" prefWidth="589.0" onMouseClicked="#handleMouseClick" />
-      <Button fx:id ="addPhotoButton" layoutX="274.0" layoutY="23.0" mnemonicParsing="false" text="Add" onAction="#addPhoto"  />
+      <ListView fx:id="photoView" layoutX="5.0" layoutY="53.0" onMouseClicked="#doubleClickPhoto" prefHeight="342.0" prefWidth="589.0" />
+      <Button fx:id="addPhotoButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addPhoto" text="Add" />
+      <Button fx:id="searchPhotoButton" onAction="#openSearch" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
    </children>
 </AnchorPane>
