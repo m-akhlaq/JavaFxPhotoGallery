@@ -30,10 +30,14 @@ public class PhotoViewController {
 	@FXML ListView<Photo> photoView;
 	@FXML Button addPhotoButton;
 	@FXML Button searchPhotoButton;
+	@FXML Button backButton;
+	@FXML Button deleteButton;
+	@FXML Button editPhoto;
 	
 	private ObservableList<Photo> list = FXCollections.observableArrayList();
 	Album currentAlbum;
 	User user;
+	Stage stage;
 	/**
 	 * This function gets called before the start method to initialize the listview.
 	 * @param u The user to whom these pictures belong
@@ -50,7 +54,7 @@ public class PhotoViewController {
 	 * @param primaryStage The current Stage
 	 */
 	public void start(Stage primaryStage){
-	    
+	    stage=primaryStage;
 	    photoView.setCellFactory(param -> new ListCell<Photo>(){
             private ImageView imageView = new ImageView();
             @Override
@@ -79,17 +83,17 @@ public class PhotoViewController {
 			loader.setLocation(
 			getClass().getResource("/view/AddingPhotoView.fxml"));
 			AnchorPane root =  (AnchorPane)loader.load();
-	           Stage stage = new Stage();
-	            stage.setTitle("My New Stage Title");
-	            stage.setScene(new Scene(root, 350, 300));
+	        Stage stage = new Stage();
+	        stage.setTitle("My New Stage Title");
+	        stage.setScene(new Scene(root, 350, 300));
 			AddingPhotoController photoViewController =
-					 loader.getController();
-					 photoViewController.initAlbum(currentAlbum);
-					 photoViewController.start(stage);
-					 stage.showAndWait();
-					 list.clear();
-					 list.addAll(currentAlbum.getPhotos());
-					Collections.sort(list,new PhotoComparator());
+			loader.getController();
+		    photoViewController.initAlbum(currentAlbum);
+		    photoViewController.start(stage);
+		    stage.showAndWait();
+			list.clear();
+			list.addAll(currentAlbum.getPhotos());
+			Collections.sort(list,new PhotoComparator());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -140,6 +144,66 @@ public class PhotoViewController {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	@FXML public void goBack(ActionEvent e){
+		
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/MainUserPage.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	         Stage newStage = new Stage();
+	         newStage.setTitle("My New Stage Title");
+	         newStage.setScene(new Scene(root, 600, 400));
+			MainUserPageController MainUserPageController =
+			loader.getController();
+			MainUserPageController.populateView(user);
+			MainUserPageController.start(newStage); 
+			stage.close();
+			newStage.show();
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	@FXML public void deletePhoto(ActionEvent e){
+		if (photoView.getSelectionModel().getSelectedItem()!=null){
+			int removeIndex = photoView.getSelectionModel().getSelectedIndex();
+			Photo removePhoto = photoView.getSelectionModel().getSelectedItem();
+			list.remove(removeIndex);
+			for (int x=0;x<currentAlbum.getPhotos().size();x++){
+				if (currentAlbum.getPhotos().get(x).equals(removePhoto)){
+					currentAlbum.getPhotos().remove(x);
+					break;
+				}
+				
+			}
+			photoView.refresh();
+		}
+	}
+	
+	@FXML public void editPhoto(ActionEvent e){
+		if (photoView.getSelectionModel().getSelectedItem()!=null){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/EditingPhotoView.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	        Stage stage = new Stage();
+	        stage.setTitle("Edit Photo");
+	        stage.setScene(new Scene(root, 300, 240));
+			EditingPhotoController editingPhotoViewController =
+			loader.getController();
+			editingPhotoViewController.initPhoto(photoView.getSelectionModel().getSelectedItem());
+			editingPhotoViewController.start(stage);
+		    stage.showAndWait();
+			photoView.refresh();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	  }
 	}
 
 		

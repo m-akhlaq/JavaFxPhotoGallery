@@ -31,6 +31,13 @@ public class Photo {
 	public ArrayList<Tag> getTags(){
 		return tags;
 	}
+	public void setCaption(String c){
+		caption=c;
+	}
+	public void setTags(ArrayList<Tag> t){
+		tags=t;
+	}
+	
 	
 	public boolean isInRange(Date fromDate, Date toDate){
 		int isCurrentDateBigger = getDate().compareTo(fromDate);

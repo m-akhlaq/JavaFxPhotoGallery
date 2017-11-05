@@ -71,7 +71,8 @@ public class AddingPhotoController {
 		String caption = captionField.getText();
 		String tags = tagField.getText();
 		ArrayList<Tag> tagList = getTags(tags);
-		if (caption.length()==0 || tags.length()==0 || filePath==null){
+		if (tagList!=null){
+		if (filePath==null){
 			 Alert alert = new Alert(AlertType.ERROR);
 			 alert.setTitle("ERROR");
 			 alert.setHeaderText("ERROR HAS OCCURED");
@@ -79,7 +80,8 @@ public class AddingPhotoController {
 			 alert.showAndWait();
 		}else{
 		currentAlbum.addPhotos(new Photo(captionField.getText(),filePath,tagList,new Date(fileTime)));
-		((Node)(e.getSource())).getScene().getWindow().hide();
+		s.close();
+		}
 		}
 	}
 	
@@ -92,8 +94,9 @@ public class AddingPhotoController {
 	
 	public ArrayList<Tag> getTags(String tags){
 		tags.trim();
-		String [] individualTags;
 		ArrayList<Tag> tagList = new ArrayList<Tag>();
+		try{
+		String [] individualTags;
 		if (tags.contains(","))
 		  individualTags = tags.split(",");
 		else {
@@ -104,7 +107,20 @@ public class AddingPhotoController {
 			String[] keyValuePair = s.split("=");
 			tagList.add(new Tag(keyValuePair[0],keyValuePair[1]));
 		}
+		}catch(Exception e){
+			 if (tags.length()!=0){
+			 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please fill out the tags properly");
+			 alert.showAndWait();
+			 return null;	 
+		}
+		
+	}
 		return tagList;
 	}
+		
+		
 
 }

@@ -27,7 +27,12 @@ import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
 import model.User;
-
+/**
+ * This class controls the actions of the search page of the program
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 public class SearchViewController {
 
 	@FXML Button searchButton;
@@ -42,11 +47,18 @@ public class SearchViewController {
 	ArrayList<Album> allAlbums = new ArrayList<Album>();
 	Stage stage;
 	
-	
+	/**
+	 * Does some housekeeping and initilizes a few fields.
+	 * @param u User whose photos are being searched
+	 */
 	public void initUser (User u){
 		user=u;
 		allAlbums=u.getAlbum();
 	}
+	/**
+	 * initilizes the stage and sets the custom cell factory for the list viewS
+	 * @param primaryStage the stage passed on as the window opnes
+	 */
 	public void start(Stage primaryStage){
 		stage=primaryStage;
 	    resultList.setCellFactory(param -> new ListCell<Photo>(){
@@ -66,7 +78,13 @@ public class SearchViewController {
 	    	
 	    });
 	}
-	
+	/**
+	 * Searches all albums based on three criteras. All three can be present, atleast one is required
+	 * 1.) Tags on the photo
+	 * 2.) the starting date in a range of dates
+	 * 3.) The ending date in the range of dates.
+	 * @param e Actionevent as a result of pressing the search button
+	 */
 	@FXML public void search(ActionEvent e){
 		searchResultList.clear();
 		resultList.refresh();
@@ -75,19 +93,22 @@ public class SearchViewController {
 		Date fromDate,toDate;
 		LocalDate localFromDate = fromDatePicker.getValue();
 		LocalDate localToDate = toDatePicker.getValue();
+		//ensures that atleast one criteria is filled
 		if (!tags.isEmpty() || localFromDate!=null || localToDate!=null){
+			//calendar class is used as a tool to convert local date to date.
 			Calendar c =  Calendar.getInstance();
+			//if local from date is not null, this sets the date as the date from the date picker, else epcoch date is selected.
 			if (localFromDate!=null){
 			c.set(localFromDate.getYear(), localFromDate.getMonthValue()-1, localFromDate.getDayOfMonth(),0,0000,000);
 			fromDate = c.getTime();
 
 			}else fromDate = new Date(1);
-			
+			//if the "to date" is not null, the date is set else a value 5000 years in the future is selected.
 			if (localToDate!=null){
 			c.set(localToDate.getYear(), localToDate.getMonthValue()-1, localToDate.getDayOfMonth(),23,59,59);
 			toDate = c.getTime();
 			}else toDate=new Date(150967831358996L);
-			
+			//goes through all the albums and adds the photos to the listview.
 			for (Album a:allAlbums){
 				ArrayList<Photo> allPhotos = a.getPhotos();
 				for (Photo p:allPhotos){
@@ -102,10 +123,13 @@ public class SearchViewController {
 		}
 		resultList.setItems(searchResultList);
 	}
-	
-	@FXML public void moveResultsToAlbum(){
+	/**
+	 * this takes the search results and moves them to an album that is created.
+	 * @param e action event as a result of pressing of 'move to album button'
+	 */
+	@FXML public void moveResultsToAlbum(ActionEvent e){
 		if (searchResultList.size()!=0){
-			TextInputDialog dialog = new TextInputDialog("walter");
+			TextInputDialog dialog = new TextInputDialog();
 			dialog.setTitle("Album Name");
 			dialog.setHeaderText("Album Name");
 			dialog.setContentText("Please enter Album Name:");

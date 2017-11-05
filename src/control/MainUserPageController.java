@@ -16,6 +16,7 @@ public class MainUserPageController {
 	@FXML ListView<Album> albumList;
 	@FXML Label welcomeMessage;
 	User user;
+	Stage mainStage;
 	private ObservableList<Album> list = FXCollections.observableArrayList();
 	public void populateView(User u){
 		user=u;
@@ -25,8 +26,7 @@ public class MainUserPageController {
 	
 	public void start(Stage mainStage){
 		albumList.setItems(list);
-		
-		
+		this.mainStage=mainStage;
 		albumList.getSelectionModel().selectedIndexProperty().addListener(
 				 (obs, oldVal, newVal) ->{
 					 try {
@@ -34,18 +34,18 @@ public class MainUserPageController {
 							loader.setLocation(
 							getClass().getResource("/view/PhotoView.fxml"));
 							AnchorPane root =  (AnchorPane)loader.load();
-					           Stage stage = new Stage();
-					            stage.setTitle("My New Stage Title");
-					            stage.setScene(new Scene(root, 600, 400));
+					        Stage stage = new Stage();
+					        stage.setTitle("My New Stage Title");
+					        stage.setScene(new Scene(root, 600, 400));
 							PhotoViewController photoViewController =
-									 loader.getController();
-									 photoViewController.populateView(user,albumList.getSelectionModel().getSelectedItem());
-									 photoViewController.start(stage);
-									 stage.showAndWait();
-
+							loader.getController();
+							photoViewController.populateView(user,albumList.getSelectionModel().getSelectedItem());
+							photoViewController.start(stage);
+							mainStage.close();
+							stage.showAndWait();
 					 }catch(Exception e) {
 							e.printStackTrace();
-						}
+					 }
 					 
 					 
 				 });
