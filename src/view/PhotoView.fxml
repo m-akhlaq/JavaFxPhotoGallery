@@ -17,6 +17,6 @@
          </font>
       </Button>
       <Button fx:id="editPhotoButton" onAction="#editPhoto" layoutX="293.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Edit Selected" />
-      <Button layoutX="388.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="SlideShow" />
+      <Button fx:id="slideshowButton" onAction="#startSlideshow" layoutX="388.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="SlideShow" />
    </children>
 </AnchorPane>

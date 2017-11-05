@@ -1,5 +1,6 @@
 package control;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -29,6 +30,8 @@ public class FullPhotoViewController {
 		Image img = new Image(photo.getLocation(),610,450,false,false);
 		photoImageView.setImage(img);
 	}
+	
+
 	
 	
 }

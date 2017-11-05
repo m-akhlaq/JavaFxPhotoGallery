@@ -32,7 +32,8 @@ public class PhotoViewController {
 	@FXML Button searchPhotoButton;
 	@FXML Button backButton;
 	@FXML Button deleteButton;
-	@FXML Button editPhoto;
+	@FXML Button editPhotoButton;
+	@FXML Button slideshowButton;
 	
 	private ObservableList<Photo> list = FXCollections.observableArrayList();
 	Album currentAlbum;
@@ -204,6 +205,28 @@ public class PhotoViewController {
 			ex.printStackTrace();
 		}
 	  }
+	}
+	
+	@FXML public void startSlideshow(ActionEvent e){
+		if (list.size()!=0){
+			try{
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(
+				getClass().getResource("/view/SlideshowView.fxml"));
+				AnchorPane root =  (AnchorPane)loader.load();
+		        Stage stage = new Stage();
+		        stage.setTitle("SlideShow");
+		        stage.setScene(new Scene(root, 610, 450));
+				SlideshowViewController slideshowViewController =
+				loader.getController();
+				slideshowViewController.initSlideshow(currentAlbum);
+				slideshowViewController.start(stage);
+			    stage.showAndWait();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
 	}
 
 		
