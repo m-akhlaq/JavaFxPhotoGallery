@@ -11,7 +11,12 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
-
+/**
+ * 
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ * This class acts as the controller for the slideshow view
+ */
 public class SlideshowViewController {
 	
 	Album album;
@@ -20,6 +25,10 @@ public class SlideshowViewController {
 	Stage stage;
 	ArrayList<Photo> listOfPhotos = new ArrayList<Photo>();
 	int photoNumber=0;
+	/**
+	 * 
+	 * @param a the album though which you want to run your slideshow through
+	 */
 	public void initSlideshow(Album a){
 		album=a;
 		listOfPhotos = a.getPhotos();
@@ -35,10 +44,17 @@ public class SlideshowViewController {
             + "-fx-text-fill: orange;");
         infoHoverButton.setTooltip(tt);
 	}
-	
+	/**
+	 * initilizes the stage
+	 * @param s the current stage
+	 */
 	public void start(Stage s){
 		stage=s;
 	}
+	/**
+	 * changes the photo and goes forward in the slideshow
+	 * @param e the event that occurs when the forward button is pressed
+	 */
 	
 	@FXML public void goForward(ActionEvent e){
 		photoNumber++;
@@ -55,7 +71,10 @@ public class SlideshowViewController {
             + "-fx-text-fill: orange;");
         infoHoverButton.setTooltip(tt);
 	}
-	
+	/**
+	 * changes the photo and moves to the previous photo in the slideshow
+	 * @param e the event that occurs when the go back button is pressed
+	 */
 	@FXML public void goBackward(ActionEvent e){
 		photoNumber--;
 		if (photoNumber<0){

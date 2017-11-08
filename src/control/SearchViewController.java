@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -26,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
+import model.Tag;
 import model.User;
 /**
  * This class controls the actions of the search page of the program
@@ -41,7 +43,10 @@ public class SearchViewController {
 	@FXML TextField tagsField;
 	@FXML ListView<Photo> resultList;
 	@FXML Button moveToAlbumButton;
+	@FXML Button addTagButton;
+	@FXML Label tagLabel;
 	private ObservableList<Photo> searchResultList = FXCollections.observableArrayList();
+	Photo fakePhoto=new Photo();
 
 	User user;
 	ArrayList<Album> allAlbums = new ArrayList<Album>();
@@ -93,8 +98,10 @@ public class SearchViewController {
 		Date fromDate,toDate;
 		LocalDate localFromDate = fromDatePicker.getValue();
 		LocalDate localToDate = toDatePicker.getValue();
+		ArrayList<Tag> searchTags = fakePhoto.getTags();
+
 		//ensures that atleast one criteria is filled
-		if (!tags.isEmpty() || localFromDate!=null || localToDate!=null){
+		if (!searchTags.isEmpty() || localFromDate!=null || localToDate!=null){
 			//calendar class is used as a tool to convert local date to date.
 			Calendar c =  Calendar.getInstance();
 			//if local from date is not null, this sets the date as the date from the date picker, else epcoch date is selected.
@@ -109,10 +116,11 @@ public class SearchViewController {
 			toDate = c.getTime();
 			}else toDate=new Date(150967831358996L);
 			//goes through all the albums and adds the photos to the listview.
+			System.out.println(searchTags);
 			for (Album a:allAlbums){
 				ArrayList<Photo> allPhotos = a.getPhotos();
 				for (Photo p:allPhotos){
-					if (p.isInRange(fromDate, toDate)){
+					if (p.isInRange(fromDate, toDate) && p.hasTags(searchTags)){
 						searchResultList.add(p);
 					}
 				}
@@ -153,6 +161,28 @@ public class SearchViewController {
 		
 		
 		}
+	}
+	
+    @FXML public void addTag(ActionEvent e){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/AddingTagView.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	        Stage stage = new Stage();
+	        stage.setTitle("Add A tag");
+	        stage.setScene(new Scene(root, 321, 249));
+			AddingTagController addingTagController =
+			loader.getController();
+		    addingTagController.start(stage,fakePhoto);
+		    stage.showAndWait();
+		    tagLabel.setText("Current Search Tags "+ fakePhoto.getTags());
+		    tagLabel.setVisible(true);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+    	
+    	
 	}
 	
 }

@@ -8,9 +8,12 @@ import java.util.Date;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,11 +29,14 @@ public class AddingPhotoController {
 	@FXML Button addButton;
 	@FXML Label filePickerLabel;
 	@FXML TextField tagField;
+	@FXML Button addTagButton;
+	@FXML Label tagListLabel;
 	
 	Album currentAlbum;
 	Stage s;
 	String filePath;
 	long fileTime;
+	Photo photoToBeAdded=new Photo();
 	/**
 	 * This function initilizes the current album that we are working with and adding photos to
 	 * @param a the album to which the photo will be added
@@ -68,59 +74,43 @@ public class AddingPhotoController {
         }
 	}
 	public void addPhoto(ActionEvent e){
-		String caption = captionField.getText();
-		String tags = tagField.getText();
-		ArrayList<Tag> tagList = getTags(tags);
-		if (tagList!=null){
 		if (filePath==null){
 			 Alert alert = new Alert(AlertType.ERROR);
 			 alert.setTitle("ERROR");
 			 alert.setHeaderText("ERROR HAS OCCURED");
-			 alert.setContentText("Please fill out all fields to continue");
+			 alert.setContentText("Please select the location of the photo");
 			 alert.showAndWait();
 		}else{
-		currentAlbum.addPhotos(new Photo(captionField.getText(),filePath,tagList,new Date(fileTime)));
+		photoToBeAdded.setCaption(captionField.getText());
+		photoToBeAdded.setDate(new Date(fileTime));
+		photoToBeAdded.setLocation(filePath);
+		currentAlbum.addPhotos(photoToBeAdded);
 		s.close();
 		}
-		}
-	}
-	
-	/**
-	 * This function takes in the raw input from the tags textfield and converts it into an arraylist of tags that
-	 * can be passed to the photo object.
-	 * @param tags gets the tags the user types in from the tag field
-	 * @return An ArrayList<Tag>
-	 */
-	
-	public ArrayList<Tag> getTags(String tags){
-		tags.trim();
-		ArrayList<Tag> tagList = new ArrayList<Tag>();
+		
+	}	
+    @FXML public void addTag(ActionEvent e){
 		try{
-		String [] individualTags;
-		if (tags.contains(","))
-		  individualTags = tags.split(",");
-		else {
-			individualTags = new String[1];
-			individualTags[0]=tags;
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/AddingTagView.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	        Stage stage = new Stage();
+	        stage.setTitle("Add A tag");
+	        stage.setScene(new Scene(root, 321, 249));
+			AddingTagController addingTagController =
+			loader.getController();
+		    addingTagController.start(stage,photoToBeAdded);
+		    stage.showAndWait();
+			if (!photoToBeAdded.getTags().isEmpty()){
+				tagListLabel.setText("Current Labels: "+ photoToBeAdded.getTags());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
-		for(String s:individualTags){
-			String[] keyValuePair = s.split("=");
-			tagList.add(new Tag(keyValuePair[0],keyValuePair[1]));
-		}
-		}catch(Exception e){
-			 if (tags.length()!=0){
-			 Alert alert = new Alert(AlertType.ERROR);
-			 alert.setTitle("ERROR");
-			 alert.setHeaderText("ERROR HAS OCCURED");
-			 alert.setContentText("Please fill out the tags properly");
-			 alert.showAndWait();
-			 return null;	 
-		}
-		
+    	
+    	
 	}
-		return tagList;
-	}
-		
 		
 
 }

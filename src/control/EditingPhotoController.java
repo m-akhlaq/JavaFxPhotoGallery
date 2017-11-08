@@ -3,13 +3,19 @@ package control;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
@@ -19,10 +25,18 @@ public class EditingPhotoController {
 
 	@FXML TextField captionField;
 	@FXML Button editButton;
-	@FXML TextField tagField;	
+	@FXML TextField tagField;
+	@FXML Button addTagButton;
+	@FXML Button showDeleteButton;
+	@FXML Button deleteTagButton;
+	@FXML Button cancelButton;
+	@FXML ComboBox<Tag> tagComboBox;
 	Album currentAlbum;
 	Stage s;
 	Photo currentPhoto;
+	Photo fakePhoto = new Photo();
+	private ObservableList<Tag> tagList = FXCollections.observableArrayList();
+
 	
 	
 	public void initPhoto(Photo p){
@@ -32,58 +46,61 @@ public class EditingPhotoController {
 	public void start(Stage s){
 		this.s=s;
 		captionField.setText(currentPhoto.getCaption());
-		ArrayList<Tag> tagList = currentPhoto.getTags();
-		String tags="";
-		if (tagList.size()!=0){
-			tags=tagList.get(0).getKey()+"="+tagList.get(0).getValue();
-			tagList.remove(0);
-		}
-		for(Tag t:currentPhoto.getTags()){
-			tags+=","+t.getKey()+"="+t.getValue();
-		}
-		tagField.setText(tags);
+		tagList =  FXCollections.observableArrayList(currentPhoto.getTags());
+
 	}
 	
 	public void editPhoto(ActionEvent e){
 		String caption = captionField.getText();
-		String tags = tagField.getText();
-		ArrayList<Tag> tagList = getTags(tags);
-		if (tagList!=null){
+		currentPhoto.getTags().clear();
+		currentPhoto.getTags().addAll(tagList);
+		if (!fakePhoto.getTags().isEmpty()){
+			currentPhoto.getTags().addAll(fakePhoto.getTags());
+		}		
 			currentPhoto.setCaption(caption);
-			currentPhoto.setTags(tagList);
 			s.close();
-		}
 	}
-	
-	public ArrayList<Tag> getTags(String tags){
-		tags.trim();
-		ArrayList<Tag> tagList = new ArrayList<Tag>();
+    @FXML public void addTag(ActionEvent e){
 		try{
-		String [] individualTags;
-		if (tags.contains(","))
-		  individualTags = tags.split(",");
-		else {
-			individualTags = new String[1];
-			individualTags[0]=tags;
+			System.out.println(currentPhoto.getTags());
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(
+			getClass().getResource("/view/AddingTagView.fxml"));
+			AnchorPane root =  (AnchorPane)loader.load();
+	        Stage stage = new Stage();
+	        stage.setTitle("Add A tag");
+	        stage.setScene(new Scene(root, 321, 249));
+			AddingTagController addingTagController =
+			loader.getController();
+		    addingTagController.start(stage,fakePhoto);
+		    stage.showAndWait();
+		    
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
-		for(String s:individualTags){
-			String[] keyValuePair = s.split("=");
-			tagList.add(new Tag(keyValuePair[0],keyValuePair[1]));
-		}
-		}catch(Exception e){
-			 if (tags.length()!=0){
-			 Alert alert = new Alert(AlertType.ERROR);
-			 alert.setTitle("ERROR");
-			 alert.setHeaderText("ERROR HAS OCCURED");
-			 alert.setContentText("Please fill out the tags properly");
-			 alert.showAndWait();
-			 return null;
-			 
-		}
-		
+    	
+    	
 	}
-		return tagList;
-	}
+    
+    @FXML public void showDeleteMenu(ActionEvent e){
+    	showDeleteButton.setVisible(false);
+    	cancelButton.setVisible(true);
+    	deleteTagButton.setVisible(true);
+    	tagComboBox.setVisible(true);
+		tagComboBox.setItems(tagList);
+    }
+    @FXML public void resetMenu(ActionEvent e){
+    	showDeleteButton.setVisible(true);
+    	cancelButton.setVisible(false);
+    	deleteTagButton.setVisible(false);
+    	tagComboBox.setVisible(false);
+    	
+    }
+    @FXML public void deleteTag(ActionEvent e){
+    	if (tagComboBox.getSelectionModel().getSelectedItem()!=null){
+    		tagList.remove(tagComboBox.getSelectionModel().getSelectedIndex());
+    	}
+    }
 	
 	
 	

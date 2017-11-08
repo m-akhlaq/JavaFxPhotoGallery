@@ -10,13 +10,16 @@ public class Photo {
 	ArrayList<Tag> tags = new ArrayList<Tag>();
 	Date date;	
 	
-	public Photo(String caption, String location,ArrayList<Tag> tags,Date date)
+	public Photo(String caption, String location,Date date)
 	{
 		this.location=location;
 		this.caption=caption; 
 		this.date=date;
 		this.tags=tags;
 	}	
+	public Photo(){
+		
+	}
 	
 	public String getLocation(){
 		return location;
@@ -37,6 +40,15 @@ public class Photo {
 	public void setTags(ArrayList<Tag> t){
 		tags=t;
 	}
+	public void setDate(Date d){
+		date=d;
+	}
+	public void setLocation(String l){
+		location=l;
+	}
+	public void addTag(Tag t){
+		tags.add(t);
+	}
 	
 	
 	public boolean isInRange(Date fromDate, Date toDate){
@@ -46,6 +58,25 @@ public class Photo {
 			return true;
 		}
 		return false; 
+	}
+	public boolean hasTags(ArrayList<Tag> paramTag){
+		if (paramTag.isEmpty())
+			return true;
+		for (Tag t:paramTag){
+			if (matchTag(t)==false){
+				return false;
+			}
+		}
+		return true;
+		
+	}
+	private boolean matchTag(Tag tag){
+		for (Tag t:tags){
+			if (t.getKey().equals(tag.getKey())&& t.getValue().equals(tag.getValue())){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public String printAttributes(){

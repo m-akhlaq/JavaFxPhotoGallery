@@ -23,7 +23,12 @@ import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.Stage;
 import model.*;
-
+/**
+ * This class acts as the controller for the main photos page within an album.
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 public class PhotoViewController {
 	
 	
@@ -106,7 +111,6 @@ public class PhotoViewController {
 	 */
 	@FXML public void doubleClickPhoto(MouseEvent click) {
         if (click.getClickCount() == 2) {
-
         	try{
     			FXMLLoader loader = new FXMLLoader();
     			loader.setLocation(
@@ -127,7 +131,10 @@ public class PhotoViewController {
         }
 	    
 	}
-	
+	/**
+	 * this opens the search view to allow users to search for photos
+	 * @param e action event that occurs when the search button is pressed
+	 */
 	@FXML public void openSearch(ActionEvent e){
 		try{
 			FXMLLoader loader = new FXMLLoader();
@@ -146,7 +153,10 @@ public class PhotoViewController {
 			ex.printStackTrace();
 		}
 	}
-	
+	/**
+	 * allows users to return to their main album page
+	 * @param e  action event that occurs when the back button is pressed
+	 */
 	@FXML public void goBack(ActionEvent e){
 		
 		try {
@@ -168,7 +178,10 @@ public class PhotoViewController {
 			ex.printStackTrace();
 		}
 	}
-	
+	/**
+	 * this button deletes the selected photo 
+	 * @param e  action event that occurs when the delete button is pressed
+	 */
 	@FXML public void deletePhoto(ActionEvent e){
 		if (photoView.getSelectionModel().getSelectedItem()!=null){
 			int removeIndex = photoView.getSelectionModel().getSelectedIndex();
@@ -185,6 +198,10 @@ public class PhotoViewController {
 		}
 	}
 	
+	/**
+	 * this allows the user to edit the information of a selected photo
+	 * @param e  action event that occurs when the search button is pressed
+	 */
 	@FXML public void editPhoto(ActionEvent e){
 		if (photoView.getSelectionModel().getSelectedItem()!=null){
 		try{
@@ -206,7 +223,10 @@ public class PhotoViewController {
 		}
 	  }
 	}
-	
+	/**
+	 * this starts the slideshow of all photos within the current album
+	 * @param e  action event that occurs when the slideshow button is pressed
+	 */
 	@FXML public void startSlideshow(ActionEvent e){
 		if (list.size()!=0){
 			try{
