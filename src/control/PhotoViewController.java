@@ -91,7 +91,7 @@ public class PhotoViewController {
 			AnchorPane root =  (AnchorPane)loader.load();
 	        Stage stage = new Stage();
 	        stage.setTitle("My New Stage Title");
-	        stage.setScene(new Scene(root, 350, 300));
+	        stage.setScene(new Scene(root, 279, 300));
 			AddingPhotoController photoViewController =
 			loader.getController();
 		    photoViewController.initAlbum(currentAlbum);
@@ -166,7 +166,7 @@ public class PhotoViewController {
 			AnchorPane root =  (AnchorPane)loader.load();
 	         Stage newStage = new Stage();
 	         newStage.setTitle("My New Stage Title");
-	         newStage.setScene(new Scene(root, 600, 400));
+	         newStage.setScene(new Scene(root, 626, 400));
 			MainUserPageController MainUserPageController =
 			loader.getController();
 			MainUserPageController.populateView(user);
@@ -247,6 +247,52 @@ public class PhotoViewController {
 			}
 		}
 		
+	}
+	
+	@FXML public void movePhoto(ActionEvent e){
+		if (photoView.getSelectionModel().getSelectedItem()!=null){
+			try{
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(
+				getClass().getResource("/view/MovePhotoView.fxml"));
+				AnchorPane root =  (AnchorPane)loader.load();
+		        Stage stage = new Stage();
+		        stage.setTitle("Move Photo");
+		        stage.setScene(new Scene(root, 306, 213));
+				MovePhotoController movePhotoController =
+				loader.getController();
+				movePhotoController.start(stage, photoView.getSelectionModel().getSelectedItem(), currentAlbum, user,photoView.getSelectionModel().getSelectedIndex());
+			    stage.showAndWait();
+				list.clear();
+				list.addAll(currentAlbum.getPhotos());
+				photoView.refresh();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
+			
+		}
+	}
+	
+	@FXML public void openPhoto(ActionEvent e){
+		if (photoView.getSelectionModel().getSelectedItem()!=null){
+        	try{
+    			FXMLLoader loader = new FXMLLoader();
+    			loader.setLocation(
+    			getClass().getResource("/view/FullPhotoView.fxml"));
+    			AnchorPane root =  (AnchorPane)loader.load();
+    	        Stage stage = new Stage();
+    	        stage.setTitle("Your Photo");
+    	        stage.setScene(new Scene(root, 610, 450));
+    	        FullPhotoViewController fullPhotoViewController = loader.getController();
+    	        fullPhotoViewController.initPhoto(photoView.getSelectionModel().getSelectedItem());
+    	        fullPhotoViewController.start(stage);
+    	        stage.show();
+        		
+        	}catch(Exception ex){
+        		ex.printStackTrace();
+        	}
+		}
 	}
 
 		

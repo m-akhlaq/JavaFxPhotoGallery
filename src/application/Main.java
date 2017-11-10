@@ -27,7 +27,7 @@ public class Main extends Application {
 					 loader.getController();
 					 listController.populateView(u);
 					 listController.start(primaryStage); 
-			Scene scene = new Scene(root,600,400);
+			Scene scene = new Scene(root,626,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();

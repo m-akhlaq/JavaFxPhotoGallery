@@ -62,7 +62,6 @@ public class EditingPhotoController {
 	}
     @FXML public void addTag(ActionEvent e){
 		try{
-			System.out.println(currentPhoto.getTags());
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(
 			getClass().getResource("/view/AddingTagView.fxml"));
