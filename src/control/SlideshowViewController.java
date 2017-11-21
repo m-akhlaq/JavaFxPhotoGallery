@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -26,17 +28,17 @@ public class SlideshowViewController {
 	ArrayList<Photo> listOfPhotos = new ArrayList<Photo>();
 	int photoNumber=0;
 	/**
-	 * 
+	 * initilizes the slideshow and displays the first image to the user
 	 * @param a the album though which you want to run your slideshow through
 	 */
 	public void initSlideshow(Album a){
 		album=a;
-		listOfPhotos = a.getPhotos();
+		listOfPhotos = album.getPhotos();
 		Photo photo = listOfPhotos.get(photoNumber);
 		Image photoImage = new Image(photo.getLocation(),610,450,false,false);
 		photoImageView.setImage(photoImage);
-		Image infoImage = new Image("file:/C:/Users/shahe/Git/Photos15/src/pictures/info.png",35,34,false,false);
-        infoHoverButton.setGraphic(new ImageView(infoImage));
+		Image img = new Image("file:resources/info.png",35,34,false,false);
+        infoHoverButton.setGraphic(new ImageView(img));
         Tooltip tt = new Tooltip();
         tt.setText(photo.printAttributes());
         tt.setStyle("-fx-font: normal bold 20 Langdon; "
@@ -89,6 +91,18 @@ public class SlideshowViewController {
             + "-fx-base: #AE3522; "
             + "-fx-text-fill: orange;");
         infoHoverButton.setTooltip(tt);
+	}
+	/**
+	 * this method shows the information of the photo is a dialogue box
+	 * @param e actionEvent that is triggered
+	 */
+	@FXML public void showInfo(ActionEvent e){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Picture Information");
+		alert.setHeaderText("Current Photo Information");
+		alert.setContentText(listOfPhotos.get(photoNumber).printAttributes());
+
+		alert.showAndWait();
 	}
 
 }

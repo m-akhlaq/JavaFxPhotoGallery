@@ -2,26 +2,36 @@ package control;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Optional;
 
-import application.Main;
+import application.Photos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.*;
 /**
  * This class acts as the controller for the main photos page within an album.
@@ -54,6 +64,9 @@ public class PhotoViewController {
 		currentAlbum=a;
 		user=u;
 		photoView.setItems(list);
+		if (list.size()>0){
+			photoView.getSelectionModel().select(0);
+		}
 	}
 	/**
 	 * Gets called when the window is first opened. Creates a custom cell factory for the list view
@@ -61,6 +74,34 @@ public class PhotoViewController {
 	 */
 	public void start(Stage primaryStage){
 	    stage=primaryStage;
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent event) {
+		        // consume event
+		        event.consume();
+		        // show close dialog
+		        Alert alert = new Alert(AlertType.CONFIRMATION);
+		        alert.setTitle("Exit Application");
+		        alert.setHeaderText("Are you sure you want to Exit?");
+		        alert.setContentText("Do you want the changes you have made during this sesssion to be saved?");
+		        ButtonType saveAndExit = new ButtonType("Save changes and Exit");
+		        ButtonType dontSaveAndExit = new ButtonType("Don't save changes and Exit");
+		        ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		        alert.getButtonTypes().setAll(saveAndExit,dontSaveAndExit,cancel);
+		        Optional<ButtonType> result = alert.showAndWait();
+		        if (result.get() == saveAndExit){
+		        	saveData();
+		        	stage.close();
+		        }else if (result.get() == dontSaveAndExit){
+		        	stage.close();
+		        }else{
+		        	alert.close();
+		        }
+		        
+		    }
+		});
+	    
+	    
 	    photoView.setCellFactory(param -> new ListCell<Photo>(){
             private ImageView imageView = new ImageView();
             @Override
@@ -71,7 +112,7 @@ public class PhotoViewController {
                     setGraphic(null);
                 }else {
                     imageView.setImage(new Image(name.getLocation(),200,200,false,false));
-                    setText(name.printAttributes());
+                    setText(name.getCaption());
                     setGraphic(imageView);
                 }
             }
@@ -90,7 +131,7 @@ public class PhotoViewController {
 			getClass().getResource("/view/AddingPhotoView.fxml"));
 			AnchorPane root =  (AnchorPane)loader.load();
 	        Stage stage = new Stage();
-	        stage.setTitle("My New Stage Title");
+	        stage.setTitle("Add Photo");
 	        stage.setScene(new Scene(root, 279, 300));
 			AddingPhotoController photoViewController =
 			loader.getController();
@@ -99,7 +140,6 @@ public class PhotoViewController {
 		    stage.showAndWait();
 			list.clear();
 			list.addAll(currentAlbum.getPhotos());
-			Collections.sort(list,new PhotoComparator());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -110,7 +150,7 @@ public class PhotoViewController {
 	 * @param click gets the event of the mouse click
 	 */
 	@FXML public void doubleClickPhoto(MouseEvent click) {
-        if (click.getClickCount() == 2) {
+        if (click.getClickCount() == 2 && photoView.getSelectionModel().getSelectedItem()!=null) {
         	try{
     			FXMLLoader loader = new FXMLLoader();
     			loader.setLocation(
@@ -165,7 +205,7 @@ public class PhotoViewController {
 			getClass().getResource("/view/MainUserPage.fxml"));
 			AnchorPane root =  (AnchorPane)loader.load();
 	         Stage newStage = new Stage();
-	         newStage.setTitle("My New Stage Title");
+	         newStage.setTitle("Album Page");
 	         newStage.setScene(new Scene(root, 626, 400));
 			MainUserPageController MainUserPageController =
 			loader.getController();
@@ -195,6 +235,12 @@ public class PhotoViewController {
 				
 			}
 			photoView.refresh();
+		}else{
+	 		 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please click to select an item in the list!");
+			 alert.showAndWait();
 		}
 	}
 	
@@ -221,6 +267,12 @@ public class PhotoViewController {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	  }else{
+	 		 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please click to select an item in the list!");
+			 alert.showAndWait();
 	  }
 	}
 	/**
@@ -245,9 +297,19 @@ public class PhotoViewController {
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
+		}else{
+	 		 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please add a photo to the album before starting the slideshow!");
+			 alert.showAndWait();
 		}
 		
 	}
+	/**
+	 * This event handler is responsible for opening the moving photo view!
+	 * @param e ActionEvent the occurs as a result of the button press!
+	 */
 	
 	@FXML public void movePhoto(ActionEvent e){
 		if (photoView.getSelectionModel().getSelectedItem()!=null){
@@ -271,8 +333,18 @@ public class PhotoViewController {
 			}
 			
 			
+		}else{
+	 		 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please click to select an item in the list!");
+			 alert.showAndWait();
 		}
 	}
+	/**
+	 * this event handler is responsible for opening a photo in a seperate viewing area. (Same as double clicking a photo)
+	 * @param e ActionEvent the occurs as a result of the button press!
+	 */
 	
 	@FXML public void openPhoto(ActionEvent e){
 		if (photoView.getSelectionModel().getSelectedItem()!=null){
@@ -292,9 +364,26 @@ public class PhotoViewController {
         	}catch(Exception ex){
         		ex.printStackTrace();
         	}
+		}else{
+	 		 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please click to select an item in the list!");
+			 alert.showAndWait();
 		}
 	}
 
+	public void saveData(){
+		try{
+			String dir = "database/";
+			String fileName = user.getName()+".dat";
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("resources/"+dir+fileName));
+			oos.writeObject(user); 
+			oos.close();
+			}catch(IOException ex){
+				ex.printStackTrace();
+			}
+	}
 		
 	
 

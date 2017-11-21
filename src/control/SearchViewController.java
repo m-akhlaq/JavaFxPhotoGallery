@@ -45,6 +45,7 @@ public class SearchViewController {
 	@FXML Button moveToAlbumButton;
 	@FXML Button addTagButton;
 	@FXML Label tagLabel;
+	@FXML Button clearButton;
 	private ObservableList<Photo> searchResultList = FXCollections.observableArrayList();
 	Photo fakePhoto=new Photo();
 
@@ -130,6 +131,9 @@ public class SearchViewController {
 
 		}
 		resultList.setItems(searchResultList);
+		fakePhoto.getTags().clear();
+		tagLabel.setVisible(false);
+		clearButton.setVisible(false);
 	}
 	/**
 	 * this takes the search results and moves them to an album that is created.
@@ -162,7 +166,10 @@ public class SearchViewController {
 		
 		}
 	}
-	
+	/**
+	 * allows the user to add the list of tags that they want to search against
+	 * @param e action event as a result of pressing of 'add Tag' button
+	 */
     @FXML public void addTag(ActionEvent e){
 		try{
 			FXMLLoader loader = new FXMLLoader();
@@ -178,11 +185,19 @@ public class SearchViewController {
 		    stage.showAndWait();
 		    tagLabel.setText("Current Search Tags "+ fakePhoto.getTags());
 		    tagLabel.setVisible(true);
+		    clearButton.setVisible(true);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
     	
     	
 	}
+    
+    @FXML public void clearTag(ActionEvent e){
+    	fakePhoto.getTags().clear();
+    	tagLabel.setVisible(false);
+    	clearButton.setVisible(false);
+    	
+    }
 	
 }

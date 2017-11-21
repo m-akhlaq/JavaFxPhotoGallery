@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Photo {
-	
+public class Photo implements Serializable {
+	static final long serialVersionUID=1L;
 	String caption;
 	String location;
 	ArrayList<Tag> tags = new ArrayList<Tag>();
@@ -72,7 +73,7 @@ public class Photo {
 	}
 	private boolean matchTag(Tag tag){
 		for (Tag t:tags){
-			if (t.getKey().equals(tag.getKey())&& t.getValue().equals(tag.getValue())){
+			if (t.getKey().toLowerCase().equals(tag.getKey().toLowerCase())&& t.getValue().toLowerCase().equals(tag.getValue().toLowerCase())){
 				return true;
 			}
 		}

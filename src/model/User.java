@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User  {
+public class User implements Serializable  {
+	static final long serialVersionUID=1L;
 	
 	String fullName;
 	String userName;

@@ -8,19 +8,19 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainUserPageController">
    		
-            <ListView fx:id="albumList" layoutX="2.0" layoutY="101.0" prefHeight="296.0" prefWidth="535.0" />
+   	<ListView fx:id="albumList" onMouseClicked="#doubleClickPhoto" layoutX="2.0" layoutY="101.0" prefHeight="296.0" prefWidth="535.0" />
          <Label fx:id="welcomeMessage" layoutX="270.0" layoutY="14.0">
       <font>
          <Font name="Berlin Sans FB Demi Bold" size="17.0" />
       </font>
    </Label>
    <Button onAction="#addAlbum" layoutX="14.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Add" />
-   <Button layoutX="262.0" layoutY="68.0" mnemonicParsing="false" text="Delete Selected " />
-   <Button layoutX="537.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Edit Selected" />
-   <Button layoutX="553.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Search" />
-   <Button layoutX="550.0" layoutY="312.0" mnemonicParsing="false" text="Log Out" />
-   <Button layoutX="550.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Exit" />
-   <Button layoutX="553.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Open" />
+   <Button onAction="#deleteAlbum" layoutX="262.0" layoutY="68.0" mnemonicParsing="false" text="Delete Selected " />
+   <Button onAction="#editAlbum" layoutX="537.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Edit Selected" />
+   <Button onAction="#openSearch" layoutX="553.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Search" />
+   <Button onAction="#logout" layoutX="550.0" layoutY="312.0" mnemonicParsing="false" text="Log Out" />
+   <Button onAction="#exit" layoutX="550.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Exit" />
+   <Button onAction="#openAlbum" layoutX="553.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Open" />
       
       
 </AnchorPane>

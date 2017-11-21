@@ -16,7 +16,12 @@ import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
 import model.User;
-
+/**
+ * This class acts as the controller for the MovePhotoView.fxml
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 public class MovePhotoController {
 
 	@FXML ToggleGroup group;
@@ -30,7 +35,14 @@ public class MovePhotoController {
 	int indexOfPhoto; 
 	private ObservableList<Album> albumList = FXCollections.observableArrayList();
 
-	
+	/**
+	 * This method initilizes all the fields and populates that combobox containing the list of albums
+	 * @param s primary stage
+	 * @param p photo to be moved
+	 * @param a album the photo to be moved is in
+	 * @param u the user whose photo it is
+	 * @param currentIndex index of the photo in the album list
+	 */
 	public void start(Stage s, Photo p, Album a, User u, int currentIndex){
 		mainStage = s;
 		currentPhoto = p;
@@ -46,7 +58,11 @@ public class MovePhotoController {
 		albumComboBox.setItems(albumList);
 
 	}
-	
+	/**
+	 * this button actually moves that photo. The move depends on which option the user selected from the cut and move or 
+	 * copy and move radio buttons
+	 * @param e action event as a result of pressing of 'movePhoto button'
+	 */
 	public void movePhoto(ActionEvent e){
 		if (albumComboBox.getSelectionModel().getSelectedItem()!=null){
 		if (copyRadioButton.isSelected()){

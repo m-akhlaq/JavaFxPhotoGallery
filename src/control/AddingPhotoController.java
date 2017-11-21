@@ -103,7 +103,7 @@ public class AddingPhotoController {
 		    addingTagController.start(stage,photoToBeAdded);
 		    stage.showAndWait();
 			if (!photoToBeAdded.getTags().isEmpty()){
-				tagListLabel.setText("Current Labels: "+ photoToBeAdded.getTags());
+				tagListLabel.setText("Picture has: "+ photoToBeAdded.getTags().size()+" tag!");
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();

@@ -1,6 +1,9 @@
 package model;
 
-public class Tag {
+import java.io.Serializable;
+
+public class Tag implements Serializable {
+	static final long serialVersionUID=1L;
 	String key;
 	String value;
 	/**

@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="450.0" stylesheets="application/application.css" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.FullPhotoViewController">
    <children>
       <ImageView fx:id="photoImageView" fitHeight="450.0" fitWidth="610.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" />
-      <Button id="myButton" fx:id="infoHoverButton" layoutX="555.0" layoutY="7.0" mnemonicParsing="false" opacity="0.42" prefHeight="23.0" prefWidth="28.0" />
+      <Button id="myButton" fx:id="infoHoverButton" onAction="#showInfo" layoutX="555.0" layoutY="7.0" mnemonicParsing="false" opacity="1" prefHeight="23.0" prefWidth="28.0" />
    </children>
 </AnchorPane>
