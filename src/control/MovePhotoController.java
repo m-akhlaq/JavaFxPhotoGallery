@@ -67,7 +67,9 @@ public class MovePhotoController {
 	public void movePhoto(ActionEvent e){
 		if (albumComboBox.getSelectionModel().getSelectedItem()!=null){
 		if (copyRadioButton.isSelected()){
-			albumComboBox.getSelectionModel().getSelectedItem().addPhotos(currentPhoto);
+			Photo p = new Photo(currentPhoto.getCaption(),currentPhoto.getLocation(),currentPhoto.getDate());
+			p.getTags().addAll(currentPhoto.getTags());
+			albumComboBox.getSelectionModel().getSelectedItem().addPhotos(p);
 			Alert alert = new Alert(AlertType.INFORMATION);
 			 alert.setTitle("Success!");
 			 alert.setHeaderText("Photo Successfully Moved");
