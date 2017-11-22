@@ -67,6 +67,7 @@ public class SearchViewController {
 	 */
 	public void start(Stage primaryStage){
 		stage=primaryStage;
+		stage.setResizable(false);
 	    resultList.setCellFactory(param -> new ListCell<Photo>(){
             private ImageView imageView = new ImageView();
             @Override
@@ -117,7 +118,6 @@ public class SearchViewController {
 			toDate = c.getTime();
 			}else toDate=new Date(150967831358996L);
 			//goes through all the albums and adds the photos to the listview.
-			System.out.println(searchTags);
 			for (Album a:allAlbums){
 				ArrayList<Photo> allPhotos = a.getPhotos();
 				for (Photo p:allPhotos){
@@ -154,6 +154,11 @@ public class SearchViewController {
 						newAlbum.addPhotos(p);
 					}
 					user.addAlbums(newAlbum);
+					Alert alert = new Alert(AlertType.INFORMATION);
+					 alert.setTitle("Success!");
+					 alert.setHeaderText("Album created!");
+					 alert.setContentText("A new Album with these photos was created!");
+					 alert.showAndWait();
 				}else{
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Error ");

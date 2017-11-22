@@ -19,8 +19,13 @@ import model.Photo;
 public class FullPhotoViewController {
 
 	Photo photo;
+	Stage mainStage;
 	@FXML ImageView photoImageView;
 	@FXML Button infoHoverButton;
+	/**
+	 * loads the photo and sets the tooltip for information
+	 * @param p photo that is being displayed
+	 */
 	public void initPhoto(Photo p){
 		photo=p;
 		Image img = new Image("file:resources/info.png",35,34,false,false);
@@ -32,8 +37,13 @@ public class FullPhotoViewController {
             + "-fx-text-fill: orange;");
         infoHoverButton.setTooltip(tt);
 	}
-	
+	/**
+	 * initilizes that stage and sets the image
+	 * @param primaryStage the current stage
+	 */
 	public void start(Stage primaryStage){
+		mainStage=primaryStage;
+		mainStage.setResizable(false);
 		Image img = new Image(photo.getLocation(),610,450,false,false);
 		photoImageView.setImage(img);
 	}

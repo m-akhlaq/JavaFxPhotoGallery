@@ -59,6 +59,8 @@ public class MainUserPageController {
 	 * @param mainStage the mainStage of the view
 	 */
 	public void start(Stage mainStage){
+		this.mainStage=mainStage;
+		mainStage.setResizable(false);
 		albumList.setItems(list);
 		albumList.refresh();
 		albumList.setCellFactory(param -> new ListCell<Album>(){

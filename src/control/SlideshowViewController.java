@@ -52,6 +52,7 @@ public class SlideshowViewController {
 	 */
 	public void start(Stage s){
 		stage=s;
+		stage.setResizable(false);
 	}
 	/**
 	 * changes the photo and goes forward in the slideshow

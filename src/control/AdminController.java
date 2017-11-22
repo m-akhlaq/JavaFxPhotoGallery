@@ -26,7 +26,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Photo;
 import model.User;
-
+/**
+ * 
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 public class AdminController {
 
 	@FXML ListView<String> userList;
@@ -34,8 +39,13 @@ public class AdminController {
 	private ObservableList<String> usernameList = FXCollections.observableArrayList();
 	Stage mainStage;
 	Scanner scanner;
+	/**
+	 * initlizes the stage and reads in the list of existing users
+	 * @param mainStage stage of the current scene
+	 */
 	public void start(Stage mainStage){
 		this.mainStage=mainStage;
+		mainStage.setResizable(false);
 		File usernameFile = new File("resources/usernames.txt");
 		try {
 			scanner = new Scanner(usernameFile);
@@ -52,6 +62,11 @@ public class AdminController {
 		userList.setItems(usernameList);
 		
 	}
+	/**
+	 * this takes in a username and checks if that username exist in our file
+	 * @param username the username we want to check
+	 * @return true-user is registered. false-user is not registered
+	 */
 	public boolean usernameExists(String username){
 		if (username.equals("admin"))
 			return true;
@@ -62,6 +77,10 @@ public class AdminController {
 		return false;
 		
 	}
+	/**
+	 * this method actaully adds the new user into the system
+	 * @param e action event triggered when a button is pressed
+	 */
 	@FXML public void addUser(ActionEvent e){
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Add user");
@@ -91,7 +110,11 @@ public class AdminController {
 		
 		
 	}
-	
+	/**
+	 * this creates the .dat file with the same name as the username
+	 * @param u User whose data we want serialized
+	 * @throws IOException thrown incase there is an IO problem
+	 */
 	private void createUserData(User u) throws IOException{
 		String dir = "database/";
 		String fileName = u.getName()+".dat";
@@ -100,7 +123,10 @@ public class AdminController {
 		oos.flush();
 		oos.close();
 	}
-	
+	/**
+	 * this method deletes the user and their corresponding .dat file
+	 * @param e Action event triggered by clicking delete
+	 */
 	@FXML public void deleteUser(ActionEvent e){
 		if(userList.getSelectionModel().getSelectedItem()!=null){
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -127,7 +153,10 @@ public class AdminController {
 			 alert.showAndWait();
 		}
 	}
-	
+	/**
+	 * saves the data and exits the application
+	 * @param e Action event triggered by clicking delete
+	 */
 	@FXML public void exit(ActionEvent e){
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		 alert.setTitle("Confirm your Action");
@@ -156,6 +185,10 @@ public class AdminController {
 		}
 	}
 	}
+	/**
+	 * saves data and logs out
+	 * @param e Action event triggered by clicking delete
+	 */
 	@FXML public void logout(ActionEvent e){
 		File text = new File("resources/usernames.txt");
 		text.setExecutable(true);

@@ -8,9 +8,17 @@ import control.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * This is the class that runs the whole programs and contains the main method
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 
 public class Photos extends Application {
+	/**
+	 * The overriden start method that launches the login page
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -35,7 +43,10 @@ public class Photos extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * launches the application
+	 * @param args String args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

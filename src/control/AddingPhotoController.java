@@ -22,7 +22,12 @@ import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
 import model.Tag;
-
+/**
+ * This class acts as the controller for the adding photo view
+ * @author Muhammad AKhlaq
+ * @author John Brauner
+ *
+ */
 public class AddingPhotoController {
 	@FXML TextField captionField;
 	@FXML Button filePickerButton;
@@ -50,6 +55,7 @@ public class AddingPhotoController {
 	 */
 	public void start(Stage s){
 		this.s=s;
+		s.setResizable(false);
 	}
 	/**
 	 * this function starts when the user presses the browse button. It opens the file chooser and allows the user to pick
@@ -73,6 +79,10 @@ public class AddingPhotoController {
         	filePickerLabel.setText("Please Select a picture");
         }
 	}
+	/**
+	 * this methods actually adds that photo to a certain album
+	 * @param e action event for 'add photo' button
+	 */
 	public void addPhoto(ActionEvent e){
 		if (filePath==null){
 			 Alert alert = new Alert(AlertType.ERROR);
@@ -89,6 +99,10 @@ public class AddingPhotoController {
 		}
 		
 	}	
+	/**
+	 * this method opens up the add tag view
+	 * @param e action event for 'add tag' button
+	 */
     @FXML public void addTag(ActionEvent e){
 		try{
 			FXMLLoader loader = new FXMLLoader();

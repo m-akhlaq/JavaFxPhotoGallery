@@ -74,6 +74,7 @@ public class PhotoViewController {
 	 */
 	public void start(Stage primaryStage){
 	    stage=primaryStage;
+	    stage.setResizable(false);
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override
 		    public void handle(WindowEvent event) {

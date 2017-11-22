@@ -45,6 +45,7 @@ public class MovePhotoController {
 	 */
 	public void start(Stage s, Photo p, Album a, User u, int currentIndex){
 		mainStage = s;
+		mainStage.setResizable(false);
 		currentPhoto = p;
 		currentAlbum = a;
 		currentUser = u;
@@ -83,6 +84,7 @@ public class MovePhotoController {
 			 if (result.get() == ButtonType.OK){
 				albumComboBox.getSelectionModel().getSelectedItem().addPhotos(currentPhoto);
 				currentAlbum.getPhotos().remove(indexOfPhoto);
+				alert = new Alert(AlertType.INFORMATION);
 				 alert.setTitle("Success!");
 				 alert.setHeaderText("Photo Successfully Moved");
 				 alert.setContentText("The Photo was Moved");

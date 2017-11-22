@@ -17,6 +17,6 @@
       <Button fx:id="showDeleteButton" onAction="#showDeleteMenu" layoutX="117.0" layoutY="147.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0" text="Delete Tags" />
       <ComboBox fx:id="tagComboBox" visible="false" layoutX="8.0" layoutY="147.0" prefHeight="25.0" prefWidth="148.0" />
       <Button fx:id="deleteTagButton" onAction="#deleteTag" visible="false" layoutX="172.0" layoutY="147.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="cancelButton" visible="false" onAction="#resetMenu" layoutX="227.0" layoutY="147.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelButton" visible="false" onAction="#resetMenu" layoutX="227.0" layoutY="147.0" mnemonicParsing="false" text="hide" />
    </children>
 </AnchorPane>

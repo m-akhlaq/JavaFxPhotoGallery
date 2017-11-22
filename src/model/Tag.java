@@ -1,7 +1,12 @@
 package model;
 
 import java.io.Serializable;
-
+/**
+ * this is the data class for tags
+ * @author Muhammad Akhalq
+ * @author John Brauner
+ *
+ */
 public class Tag implements Serializable {
 	static final long serialVersionUID=1L;
 	String key;

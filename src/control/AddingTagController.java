@@ -9,7 +9,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.Photo;
 import model.Tag;
-
+/**
+ * 
+ * @author Muhammad Akhlaq
+ * @author John Brauner
+ *
+ */
 public class AddingTagController {
 
 	@FXML TextField keyField;
@@ -17,19 +22,35 @@ public class AddingTagController {
 	@FXML Button addButton;
 	Photo currentPhoto;
 	Stage mainStage;
-	
+	/**
+	 * initilzes the fields.
+	 * @param primaryStage the current stage
+	 * @param p the photo to whom that tag should be added.
+	 */
 	public void start(Stage primaryStage, Photo p){
 		mainStage=primaryStage;
+		mainStage.setResizable(false);
 		currentPhoto=p;
 	}
-	
+	/**
+	 * actually adds the tag
+	 * @param e action event for 'add tag' button
+	 */
 	@FXML public void addTag(ActionEvent e){
 		String key=keyField.getText().trim();
 		String value=valueField.getText().trim();
 		if (!key.isEmpty()&&!value.isEmpty()){
 			Tag t = new Tag(key,value);
+			if (currentPhoto.matchTag(t)==false){
 			currentPhoto.addTag(t);
 			mainStage.close();
+			}else{
+				 Alert alert = new Alert(AlertType.ERROR);
+				 alert.setTitle("ERROR");
+				 alert.setHeaderText("ERROR HAS OCCURED");
+				 alert.setContentText("Tag already exists");
+				 alert.showAndWait();
+			}
 		}else{
 			 Alert alert = new Alert(AlertType.ERROR);
 			 alert.setTitle("ERROR");
