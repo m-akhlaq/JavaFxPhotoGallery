@@ -21,13 +21,15 @@ public class AddingTagController {
 	@FXML TextField valueField;
 	@FXML Button addButton;
 	Photo currentPhoto;
+	Photo secondPhoto;
 	Stage mainStage;
 	/**
 	 * initilzes the fields.
 	 * @param primaryStage the current stage
 	 * @param p the photo to whom that tag should be added.
 	 */
-	public void start(Stage primaryStage, Photo p){
+	public void start(Stage primaryStage, Photo p, Photo p2){
+		secondPhoto=p2;
 		mainStage=primaryStage;
 		mainStage.setResizable(false);
 		currentPhoto=p;
@@ -41,8 +43,13 @@ public class AddingTagController {
 		String value=valueField.getText().trim();
 		if (!key.isEmpty()&&!value.isEmpty()){
 			Tag t = new Tag(key,value);
-			if (currentPhoto.matchTag(t)==false){
+			if (currentPhoto.matchTag(t)==false && secondPhoto.matchTag(t)==false){
 			currentPhoto.addTag(t);
+			Alert alert = new Alert(AlertType.INFORMATION);
+			 alert.setTitle("Success!");
+			 alert.setHeaderText("Tag added");
+			 alert.setContentText("The tag was added succesfully");
+			 alert.showAndWait();
 			mainStage.close();
 			}else{
 				 Alert alert = new Alert(AlertType.ERROR);

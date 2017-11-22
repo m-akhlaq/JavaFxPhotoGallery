@@ -121,17 +121,33 @@ public class SearchViewController {
 			for (Album a:allAlbums){
 				ArrayList<Photo> allPhotos = a.getPhotos();
 				for (Photo p:allPhotos){
-					if (p.isInRange(fromDate, toDate) && p.hasTags(searchTags)){
+					if (p.isInRange(fromDate, toDate) && p.hasTags(searchTags) && !searchResultList.contains(p)){
 						searchResultList.add(p);
 					}
 				}
 			}
+			if (searchResultList.isEmpty()){
+				 Alert alert = new Alert(AlertType.ERROR);
+				 alert.setTitle("Nothing");
+				 alert.setHeaderText("No results found!");
+				 alert.setContentText("No results were found! Please check your query and try again");
+				 alert.showAndWait();
+			}
 			
 			
 
+		}else{
+			 Alert alert = new Alert(AlertType.ERROR);
+			 alert.setTitle("ERROR");
+			 alert.setHeaderText("ERROR HAS OCCURED");
+			 alert.setContentText("Please choose atleast one criteria to search on");
+			 alert.showAndWait();
+			
 		}
 		resultList.setItems(searchResultList);
 		fakePhoto.getTags().clear();
+		toDatePicker.setValue(null);
+		fromDatePicker.setValue(null);
 		tagLabel.setVisible(false);
 		clearButton.setVisible(false);
 	}
@@ -186,7 +202,7 @@ public class SearchViewController {
 	        stage.setScene(new Scene(root, 321, 249));
 			AddingTagController addingTagController =
 			loader.getController();
-		    addingTagController.start(stage,fakePhoto);
+		    addingTagController.start(stage,fakePhoto,fakePhoto);
 		    stage.showAndWait();
 		    tagLabel.setText("Current Search Tags "+ fakePhoto.getTags());
 		    tagLabel.setVisible(true);

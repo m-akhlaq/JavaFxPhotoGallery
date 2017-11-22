@@ -114,7 +114,7 @@ public class AddingPhotoController {
 	        stage.setScene(new Scene(root, 321, 249));
 			AddingTagController addingTagController =
 			loader.getController();
-		    addingTagController.start(stage,photoToBeAdded);
+		    addingTagController.start(stage,photoToBeAdded,photoToBeAdded);
 		    stage.showAndWait();
 			if (!photoToBeAdded.getTags().isEmpty()){
 				tagListLabel.setText("Picture has: "+ photoToBeAdded.getTags().size()+" tag!");

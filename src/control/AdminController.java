@@ -14,6 +14,7 @@ import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,8 +23,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Photo;
 import model.User;
 /**
@@ -57,7 +60,25 @@ public class AdminController {
 			if (!s.equals("admin"))
 				usernames.add(s);
 		}
-		
+		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent event) {
+		        // consume event
+		        event.consume();
+		        // show close dialog
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				 alert.setTitle("Confirm your Action");
+				 alert.setHeaderText("Please confirm");
+				 alert.setContentText("Save the progress and make exit?");
+				 Optional<ButtonType> result = alert.showAndWait();
+				 //ensures that the user presses OK before any changes are finalized.
+				 if (result.get() == ButtonType.OK){
+					 writeData();
+					 mainStage.close();
+				 }
+		        
+		    }
+		});
 		usernameList=FXCollections.observableArrayList(usernames);
 		userList.setItems(usernameList);
 		
@@ -165,31 +186,42 @@ public class AdminController {
 		 Optional<ButtonType> result = alert.showAndWait();
 		 //ensures that the user presses OK before any changes are finalized.
 		 if (result.get() == ButtonType.OK){
-				File text = new File("resources/usernames.txt");
-				text.setExecutable(true);
-				text.setReadable(true);
-				text.setWritable(true);
-				try {
-					BufferedWriter bw=null;
-					bw= new BufferedWriter(new FileWriter(text));
-					for(String s:usernameList){
-						bw.write(s);
-						bw.newLine();
-					}
-				bw.write("admin");
-				bw.flush();
-				bw.close();
-				mainStage.close();
-		 }catch(IOException ex){
-				ex.printStackTrace();
-		}
+			 writeData();
+		 	}
 	}
+	
+	private void writeData(){
+		File text = new File("resources/usernames.txt");
+		text.setExecutable(true);
+		text.setReadable(true);
+		text.setWritable(true);
+		try {
+			BufferedWriter bw=null;
+			bw= new BufferedWriter(new FileWriter(text));
+			for(String s:usernameList){
+				bw.write(s);
+				bw.newLine();
+			}
+		bw.write("admin");
+		bw.flush();
+		bw.close();
+		mainStage.close();
+ }catch(IOException ex){
+		ex.printStackTrace();
+}
 	}
 	/**
 	 * saves data and logs out
 	 * @param e Action event triggered by clicking delete
 	 */
 	@FXML public void logout(ActionEvent e){
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		 alert.setTitle("Confirm your Action");
+		 alert.setHeaderText("Please confirm");
+		 alert.setContentText("This will save your progress and Logout Continue?");
+		 Optional<ButtonType> result = alert.showAndWait();
+		 //ensures that the user presses OK before any changes are finalized.
+		 if (result.get() == ButtonType.OK){
 		File text = new File("resources/usernames.txt");
 		text.setExecutable(true);
 		text.setReadable(true);
@@ -219,6 +251,7 @@ public class AdminController {
 		}catch(IOException ex){
 			ex.printStackTrace();
 		}
+		 }
 		
 		
 	}

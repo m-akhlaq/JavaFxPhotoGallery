@@ -118,7 +118,7 @@ public class EditingPhotoController {
 	        stage.setScene(new Scene(root, 321, 249));
 			AddingTagController addingTagController =
 			loader.getController();
-		    addingTagController.start(stage,fakePhoto);
+		    addingTagController.start(stage,fakePhoto,currentPhoto);
 		    stage.showAndWait();
 		    
 		}catch(Exception ex){
