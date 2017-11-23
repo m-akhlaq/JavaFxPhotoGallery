@@ -45,7 +45,6 @@ public class MovePhotoController {
 	 */
 	public void start(Stage s, Photo p, Album a, User u, int currentIndex){
 		mainStage = s;
-		mainStage.setResizable(false);
 		currentPhoto = p;
 		currentAlbum = a;
 		currentUser = u;
@@ -67,9 +66,7 @@ public class MovePhotoController {
 	public void movePhoto(ActionEvent e){
 		if (albumComboBox.getSelectionModel().getSelectedItem()!=null){
 		if (copyRadioButton.isSelected()){
-			Photo p = new Photo(currentPhoto.getCaption(),currentPhoto.getLocation(),currentPhoto.getDate());
-			p.getTags().addAll(currentPhoto.getTags());
-			albumComboBox.getSelectionModel().getSelectedItem().addPhotos(p);
+			albumComboBox.getSelectionModel().getSelectedItem().addPhotos(currentPhoto);
 			Alert alert = new Alert(AlertType.INFORMATION);
 			 alert.setTitle("Success!");
 			 alert.setHeaderText("Photo Successfully Moved");
