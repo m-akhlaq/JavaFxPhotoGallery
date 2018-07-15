@@ -27,10 +27,6 @@ public class Photos extends Application {
 			loader.setLocation(
 			getClass().getResource("/view/LoginView.fxml"));
 			AnchorPane root =  (AnchorPane)loader.load();
-			User u = new User("Muhammad Akh","msakhlaq");
-			u.addAlbums(new Album("Al1"));
-			u.addAlbums(new Album("Al2"));
-			u.addAlbums(new Album("Al3"));
 			LoginController listController =
 					 loader.getController();
 					// listController.populateView(u);
