@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * This is the class that runs the whole programs and contains the main method
  * @author Muhammad Akhlaq
- * @author John Brauner
+ * 
  *
  */
 
