@@ -25,7 +25,7 @@ import model.Tag;
 /**
  * This class acts as the controller for the adding photo view
  * @author Muhammad AKhlaq
- * @author John Brauner
+ * 
  *
  */
 public class AddingPhotoController {
