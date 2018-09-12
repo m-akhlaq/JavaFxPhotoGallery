@@ -12,7 +12,7 @@ import model.Tag;
 /**
  * 
  * @author Muhammad Akhlaq
- * @author John Brauner
+ * 
  *
  */
 public class AddingTagController {
